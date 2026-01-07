@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login | AzuTech Innovations</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(120deg, #f4f5f7, #e8f3ee);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1f2937;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .login-card h1 {
+            margin: 0;
+            font-size: 26px;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            margin-top: 6px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-group {
+            margin-top: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #2f6f4e;
+            box-shadow: 0 0 0 2px rgba(47, 111, 78, 0.2);
+        }
+
+        /* Password eye toggle */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 44px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-password:hover {
+            color: #2f6f4e;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 26px;
+            padding: 12px;
+            background: #2f6f4e;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s;
+        }
+
+        button:hover {
+            background: #3f8b64;
+            transform: translateY(-1px);
+        }
+
+        .error-message {
+            margin-top: 16px;
+            padding: 10px;
+            background: #fdecea;
+            color: #b00020;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .hint {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #6b7280;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <h1>HR Admin</h1>
+        <p class="subtitle">Internal access only</p>
+
+        <!-- Error Message -->
+        <div class="error-message" th:if="${error}">
+            <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/admin/login}" method="post">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required placeholder="Username">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" required placeholder="Password">
+
+                    <span class="toggle-password" onclick="togglePassword()">
+                        <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24"
+                             fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12C1 12 5 5 12 5
+                                     C19 5 23 12 23 12
+                                     C23 12 19 19 12 19
+                                     C5 19 1 12 1 12Z"
+                                  stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="12" r="3"
+                                    stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p class="hint">This page is not visible to job applicants.</p>
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById("password");
+        const eyeIcon = document.getElementById("eyeIcon");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.innerHTML = `
+                <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19
+                         C5 19 1 12 1 12
+                         A21.81 21.81 0 0 1 5.06 6.06"
+                      stroke="currentColor" stroke-width="2"/>
+                <path d="M1 1L23 23"
+                      stroke="currentColor" stroke-width="2"/>
+            `;
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.innerHTML = `
+                <path d="M1 12C1 12 5 5 12 5
+                         C19 5 23 12 23 12
+                         C23 12 19 19 12 19
+                         C5 19 1 12 1 12Z"
+                      stroke="currentColor" stroke-width="2"/>
+                <circle cx="12" cy="12" r="3"
+                        stroke="currentColor" stroke-width="2"/>
+            `;
+        }
+    }
+</script>
+
+</body>
+</html>

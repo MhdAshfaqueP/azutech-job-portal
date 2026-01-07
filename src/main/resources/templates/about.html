@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us | Azu Technologies</title>
+
+    <style>
+        :root {
+            --green-dark: #1f3d2b;
+            --green-main: #2f6f4e;
+            --green-soft: #e8f3ee;
+            --text-dark: #1f2937;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: var(--green-soft);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--green-dark), var(--green-main));
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .navbar a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: var(--green-dark);
+            margin-bottom: 15px;
+        }
+
+        p {
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        footer {
+            background-color: var(--green-dark);
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            margin-top: 260px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">AzuTech Innovations</div>
+    <div>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/applyJobs}">Careers</a>
+        <a th:href="@{/contact}">Contact</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>About AzuTech Innovations</h1>
+    <p>
+        AzuTech Innovations is a forward-thinking software company focused on building
+        reliable, scalable, and innovative digital solutions. We help businesses
+        transform ideas into high-quality applications using modern technologies.
+    </p>
+
+    <p>
+        Our culture is driven by collaboration, continuous learning, and a passion
+        for solving real-world problems. At AzuTech Innovations, people come first —
+        both our clients and our team.
+    </p>
+</div>
+
+<footer>
+    © 2026 AzuTech Innovations. All Rights Reserved.
+</footer>
+
+</body>
+</html>

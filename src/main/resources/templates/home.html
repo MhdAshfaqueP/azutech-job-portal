@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AzuTech Innovations | Careers</title>
+
+    <style>
+        :root {
+            --primary: #2f6f4e;
+            --primary-dark: #1f3d2b;
+            --bg-light: #f4f7f6;
+            --text-dark: #1f2937;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER */
+        header {
+            background-color: var(--primary-dark);
+            color: #fff;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        /* INTRO */
+        .intro {
+            background-color: #fff;
+            padding: 70px 0;
+        }
+
+        .intro h1 {
+            margin-bottom: 15px;
+            font-size: 32px;
+        }
+
+        .intro p {
+            max-width: 700px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .primary-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .primary-btn:hover {
+            background-color: #3f8b64;
+        }
+
+        /* WHY US */
+        .why-us {
+            padding: 60px 0;
+        }
+
+        .why-us h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .reasons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .reason {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .reason h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: var(--primary-dark);
+        }
+
+        .reason p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--primary-dark);
+            color: #fff;
+            font-size: 13px;
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+        }
+
+        .admin-link {
+            color: #cfe7dc;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .admin-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo">AzuTech Innovations</div>
+        <nav>
+            <a th:href="@{/availableJobs}">Open Positions</a>
+            <a th:href="@{/about}">About</a>
+            <a th:href="@{/contact}">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <section class="intro">
+        <div class="container">
+            <h1>Careers at AzuTech Innovations</h1>
+            <p>
+                We are a software development company working on business
+                applications and client-driven solutions. If you are looking
+                for meaningful work and steady growth, explore our current
+                job openings.
+            </p>
+
+            <a th:href="@{/availableJobs}" class="primary-btn">
+                View Open Positions
+            </a>
+        </div>
+    </section>
+
+    <section class="why-us">
+        <div class="container">
+            <h2>Why Join Us</h2>
+
+            <div class="reasons">
+                <div class="reason">
+                    <h3>Real Projects</h3>
+                    <p>
+                        Work on live systems used by clients, not practice
+                        assignments or demo apps.
+                    </p>
+                </div>
+
+                <div class="reason">
+                    <h3>Learning-Oriented Team</h3>
+                    <p>
+                        We encourage knowledge sharing, mentorship, and
+                        technical ownership.
+                    </p>
+                </div>
+
+                <div class="reason">
+                    <h3>Balanced Environment</h3>
+                    <p>
+                        Clear expectations, reasonable deadlines, and respect
+                        for personal time.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <span>© 2026 AzuTech Innovations</span>
+        <a th:href="@{/admin/login}" class="admin-link">Admin Access</a>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | AzuTech Innovations</title>
+
+    <style>
+        * {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f4f5f7;
+    color: #1f2937;
+}
+
+/* HEADER */
+.header {
+    background-color: #1f3d2b;
+    color: #fff;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+/* Logout Button */
+.logout-btn {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}
+
+/* CONTENT */
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Cards Grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+/* Card */
+.card {
+    background: #ffffff;
+    padding: 24px 22px;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+/* Card Content */
+.card h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #1f3d2b;
+    font-weight: 600;
+}
+
+.card .stat {
+    display: block;
+    margin-top: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #2f6f4e;
+}
+
+.card p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+/* Card Action */
+.card a {
+    display: inline-block;
+    margin-top: 14px;
+    text-decoration: none;
+    background-color: #2f6f4e;
+    color: #fff;
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: background 0.2s ease;
+}
+
+.card a:hover {
+    background-color: #3f8b64;
+}
+    </style>
+</head>
+
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h2>Admin Dashboard</h2>
+    <form th:action="@{/admin/logout}" method="post">
+        <button class="logout-btn">Logout</button>
+    </form>
+</div>
+
+<!-- Content -->
+<div class="container">
+    <div class="card-grid">
+
+        <!-- Manage Jobs -->
+        <div class="card">
+            <h3>Manage Jobs</h3>
+            <span class="stat">—</span>
+            <p>Add, edit, or remove job openings.</p>
+            <a th:href="@{/admin/jobs}">Go →</a>
+        </div>
+
+        <!-- View Applications -->
+        <div class="card">
+            <h3>View Applications</h3>
+            <span class="stat">—</span>
+            <p>Review all job applications and resumes.</p>
+            <a th:href="@{/admin/applications}">Go →</a>
+        </div>
+
+        <!-- Shortlisted -->
+        <div class="card">
+            <h3>Shortlisted</h3>
+            <span class="stat">—</span>
+            <p>View shortlisted candidates.</p>
+            <a th:href="@{/admin/applications?status=ACCEPTED}">Go →</a>
+        </div>
+
+        <!-- Rejected -->
+        <div class="card">
+            <h3>Rejected</h3>
+            <span class="stat">—</span>
+            <p>View rejected candidates.</p>
+            <a th:href="@{/admin/applications?status=REJECTED}">Go →</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

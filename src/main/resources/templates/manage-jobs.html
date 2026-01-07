@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Jobs | Admin</title>
+
+    <style>
+        * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+        body { margin: 0; background: #f4f5f7; color: #1f2937; }
+
+        /* Header */
+        .header {
+            background-color: #1f3d2b;
+            color: #fff;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h2 { margin: 0; font-size: 20px; }
+        .back-btn { color: #fff; text-decoration: none; font-size: 14px; }
+
+        /* Container */
+        .container { padding: 30px; max-width: 1000px; margin: auto; }
+
+        h3 { margin-bottom: 20px; color: #1f3d2b; }
+        .section-title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #1f3d2b;
+}
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        }
+        th, td { padding: 14px 16px; text-align: left; }
+        th { background: #1f3d2b; color: #fff; font-size: 14px; }
+        tr:nth-child(even) { background: #f9fafb; }
+        tr:hover { background: #eef1f4; }
+
+        .no-data { text-align: center; padding: 20px; color: #6b7280; }
+
+        /* Action buttons */
+        .action-btn { padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; font-size: 13px; line-height: 1; }
+        .action-btn.delete { background: #e74c3c; color: #fff; }
+        td { vertical-align: middle; }
+
+        /* Add Job Form */
+        form.add-job-form {
+            background: #fff;
+            padding: 20px;
+            margin-top: 10px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        form.add-job-form label { display: block; margin-top: 12px; font-size: 14px; }
+        form.add-job-form input { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .add-btn { margin-top: 15px; width: 100%; padding: 10px; background-color: #2f6f4e; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; }
+        .add-btn:hover { background-color: #3f8b64; }
+
+        /* Messages */
+        .msg { width: 100%; max-width: 400px; margin: 20px auto; padding: 12px; text-align: center; border-radius: 4px; font-size: 14px; border: 1px solid #ddd; background-color: #ffffff; }
+        .success { color: #1e7e34; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(31, 61, 43, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background: #fff; width: 340px; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            animation: fadeIn 0.2s ease;
+        }
+        .modal-box h3 { margin: 0 0 10px; font-size: 18px; }
+        .modal-box p { font-size: 14px; color: #555; margin-bottom: 20px; }
+        .modal-actions { display: flex; justify-content: space-between; gap: 10px; }
+        .btn { flex: 1; padding: 8px 0; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; }
+        .btn.cancel { background: #ecf0f1; color: #333; }
+        .btn.confirm { background: #e74c3c; color: #fff; }
+        .btn.confirm:hover { background: #c0392b; }
+
+        @keyframes fadeIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            table, form.add-job-form { width: 100%; }
+        }
+
+        /* Table scroll on small screens */
+        .table-wrapper { overflow-x: auto; }
+        .add-job-btn {
+    padding: 8px 14px;
+    background-color: #2f6f4e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.add-job-btn:hover {
+    background-color: #3f8b64;
+}
+
+/* Add Job Modal */
+.add-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31, 61, 43, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.add-modal-box {
+    background: #fff;
+    width: 360px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    animation: fadeIn 0.2s ease;
+}
+
+.add-modal-box h3 {
+    margin: 0 0 15px;
+    color: #1f3d2b;
+}
+
+.add-modal-box label {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.add-modal-box input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.add-modal-actions button {
+    flex: 1;
+    padding: 8px 0;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.add-cancel {
+    background: #ecf0f1;
+    color: #333;
+}
+
+.add-confirm {
+    background: #2f6f4e;
+    color: #fff;
+}
+
+.add-confirm:hover {
+    background: #3f8b64;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Manage Job Openings</h2>
+    <a class="back-btn" th:href="@{/admin-dashboard}">← Back to Dashboard</a>
+</div>
+
+<div class="container">
+
+    <h3>Job Openings</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Job Name</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="job : ${jobs}">
+                <td th:text="${job.jobId}"></td>
+                <td th:text="${job.jobName}"></td>
+                <td th:text="${job.location}"></td>
+                <td>
+                    <button type="button" class="action-btn delete" th:onclick="'openDeleteModal(' + ${job.jobId} + ')'">Delete</button>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(jobs)}">
+                <td colspan="4" class="no-data">No job openings found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; margin-top:12px;">
+        <button class="add-job-btn" onclick="openAddJobModal()">+ Add Job</button>
+    </div>
+
+    <div th:if="${message}" class="msg success" th:text="${message}"></div>
+
+</div>
+
+<!-- Delete Modal -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+        <h3>Delete Job</h3>
+        <p>Are you sure you want to delete this job?</p>
+        <div class="modal-actions">
+            <button class="btn cancel" onclick="closeDeleteModal()">Cancel</button>
+            <button class="btn confirm" onclick="confirmDelete()">Delete</button>
+        </div>
+    </div>
+</div>
+
+<form th:action="@{/deleteJobs}" method="post" id="deleteForm">
+    <input type="hidden" name="jobId" id="deleteJobId">
+</form>
+
+<!-- Add Job Modal -->
+<div class="add-modal-overlay" id="addJobModal">
+    <div class="add-modal-box">
+        <h3>Add Job</h3>
+
+        <form th:action="@{/addJobs}" th:object="${jobopenings}" method="post">
+            <label>Job Name</label>
+            <input type="text" th:field="*{jobName}" required>
+
+            <label>Location</label>
+            <input type="text" th:field="*{location}" required>
+
+            <div class="add-modal-actions">
+                <button type="button" class="add-cancel" onclick="closeAddJobModal()">Cancel</button>
+                <button type="submit" class="add-confirm">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    let selectedJobId = null;
+    function openDeleteModal(jobId) {
+        selectedJobId = jobId;
+        document.getElementById("deleteJobId").value = jobId;
+        document.getElementById("deleteModal").style.display = "flex";
+    }
+    function closeDeleteModal() {
+        document.getElementById("deleteModal").style.display = "none";
+        selectedJobId = null;
+    }
+    function confirmDelete() {
+        document.getElementById("deleteForm").submit();
+    }
+</script>
+<script>
+    function openAddJobModal() {
+        document.getElementById("addJobModal").style.display = "flex";
+    }
+
+    function closeAddJobModal() {
+        document.getElementById("addJobModal").style.display = "none";
+    }
+</script>
+</body>
+</html>

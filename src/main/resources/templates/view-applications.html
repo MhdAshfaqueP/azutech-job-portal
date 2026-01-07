@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Applications | Admin</title>
+
+    <style>
+        * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+        body { margin: 0; background: #f4f5f7; color: #1f2937; }
+
+        /* Header */
+        .header {
+            background-color: #1f3d2b;
+            color: #fff;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h2 { margin: 0; }
+        .back-btn { color: #fff; text-decoration: none; font-size: 14px; }
+
+        /* Container */
+        .container { padding: 30px; max-width: 1200px; margin: auto; }
+
+        h3 { margin-bottom: 16px; color: #1f3d2b; }
+
+        /* Table */
+        .table-wrapper { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        }
+        th, td { padding: 12px 14px; text-align: left; vertical-align: middle; }
+        th { background: #1f3d2b; color: #fff; font-size: 14px; }
+        tr:nth-child(even) { background: #f9fafb; }
+        tr:hover { background: #eef1f4; }
+        .no-data { text-align: center; padding: 20px; color: #6b7280; }
+
+        /* Status labels */
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #fff;
+            text-align: center;
+            min-width: 70px;
+            display: inline-block;
+        }
+        .status.APPLIED { background-color: #6b7280; }   /* Gray */
+        .status.ACCEPTED { background-color: #2ecc71; }  /* Green */
+        .status.REJECTED { background-color: #e74c3c; }  /* Red */
+
+        /* Action buttons */
+        .action-btn {
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 4px;
+        }
+        .action-btn.accept { background-color: #2f6f4e; color: #fff; }
+        .action-btn.accept:hover { background-color: #3f8b64; }
+        .action-btn.reject { background-color: #e74c3c; color: #fff; }
+        .action-btn.reject:hover { background-color: #c0392b; }
+        .action-btn.disabled { background: #ccc; color: #666; cursor: not-allowed; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 10px; text-align: center; }
+            table, .table-wrapper { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>View Applications</h2>
+    <a class="back-btn" th:href="@{/admin-dashboard}">← Back to Dashboard</a>
+</div>
+
+<div class="container">
+
+    <h3 th:text="${pageTitle}">Job Applications</h3>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Notice Period</th>
+                <th>Experience</th>
+                <th>Phone</th>
+                <th>Resume Path</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="app : ${applications}">
+                <td th:text="${app.applicationId}"></td>
+                <td th:text="${app.fullName}"></td>
+                <td th:text="${app.email}"></td>
+                <td th:text="${app.noticePeriod}"></td>
+                <td th:text="${app.workExperience}"></td>
+                <td th:text="${app.phoneNumber}"></td>
+                <td th:text="${app.resumePath}"></td>
+                <td>
+                    <span class="status" th:classappend="${app.status}" th:text="${app.status}">APPLIED</span>
+                </td>
+                <td>
+                    <form th:action="@{/admin/applications/accept}" method="post" style="display:inline;">
+                        <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                        <button type="submit" class="action-btn accept" th:if="${app.status == 'APPLIED'}">Accept</button>
+                    </form>
+
+                    <form th:action="@{/admin/applications/reject}" method="post" style="display:inline;">
+                        <input type="hidden" name="applicationId" th:value="${app.applicationId}">
+                        <button type="submit" class="action-btn reject" th:if="${app.status == 'APPLIED'}">Reject</button>
+                    </form>
+
+                    <button class="action-btn disabled" disabled th:if="${app.status != 'APPLIED'}">Processed</button>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(applications)}">
+                <td colspan="9" class="no-data">No applications found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
