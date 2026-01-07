@@ -18,21 +18,22 @@ public class AdminInitializer {
             @Value("${admin.bootstrap.enabled:false}") boolean enabled
     ) {
         return args -> {
+            if(enabled) {
+                createAdminIfNotExists(
+                        "admin1", "ad_1",
+                        adminRepository, passwordEncoder
+                );
 
-            createAdminIfNotExists(
-                    "admin1", "ad_1",
-                    adminRepository, passwordEncoder
-            );
+                createAdminIfNotExists(
+                        "admin2", "ad_2",
+                        adminRepository, passwordEncoder
+                );
 
-            createAdminIfNotExists(
-                    "admin2", "ad_2",
-                    adminRepository, passwordEncoder
-            );
-
-            createAdminIfNotExists(
-                    "admin3", "ad_3",
-                    adminRepository, passwordEncoder
-            );
+                createAdminIfNotExists(
+                        "admin3", "ad_3",
+                        adminRepository, passwordEncoder
+                );
+            }
         };
     }
 
