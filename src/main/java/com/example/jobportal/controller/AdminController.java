@@ -33,7 +33,6 @@ public class AdminController {
         return "loginpage";
     }
 
-
     @PostMapping("/admin/login")
     public String loginAdmin(
             @RequestParam String username,
